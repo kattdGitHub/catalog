@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             Text(
-              "Welcome $name",
+              "Wel  come $name",
               style: TextStyle(
                 fontSize: 40,
                 fontWeight: FontWeight.bold,
