@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
+  static String iniRoute = "/";
+  static String homeRoute = "/home";
   final int days = 30;
+
   final String name = 'codepur';
   const HomePage({super.key});
 

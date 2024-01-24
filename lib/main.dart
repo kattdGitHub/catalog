@@ -21,10 +21,11 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData(
         brightness: Brightness.dark,
       ),
+      initialRoute: HomePage.iniRoute,
       routes: {
-        "/": (context) => LoginPage(),
-        "/home": (context) => HomePage(),
-        "/login": (context) => LoginPage()
+        HomePage.iniRoute: (context) => LoginPage(),
+        HomePage.homeRoute: (context) => HomePage(),
+        LoginPage.loginRoute: (context) => LoginPage(),
       },
     );
   }
