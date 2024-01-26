@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:singh/Widgets/Item_Widget.dart';
 import 'package:singh/Widgets/drawer.dart';
+import 'package:singh/models/catalog.dart';
 
 class HomePage extends StatelessWidget {
   static String iniRoute = "/";
@@ -13,23 +15,23 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          "Catagol App",
-          style: TextStyle(color: Colors.black),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text(
+            "Catagol App",
+            style: TextStyle(color: Colors.black),
+          ),
+          // backgroundColor: Colors.deepPurple,
         ),
-        // backgroundColor: Colors.deepPurple,
-      ),
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Text(
-            "wellcome to $days days of flutter by $name",
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView.builder(
+            itemCount: CatalogModel.Items.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ItemWidget(item: CatalogModel.Items[index]);
+            },
           ),
         ),
-      ),
-      drawer: MyDrawer(),
-    );
+        drawer: MyDrawer());
   }
 }
