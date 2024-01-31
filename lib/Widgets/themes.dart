@@ -10,5 +10,9 @@ class MyTheme {
         elevation: 0.0,
         iconTheme: IconThemeData(color: Colors.black),
       ));
+
+  static ThemeData darkTheme(BuildContext context) => ThemeData(
+        brightness: Brightness.dark,
+      );
 // textTheme: Theme.of(context).textTheme)),
 }

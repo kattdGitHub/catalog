@@ -1,37 +1,61 @@
-import 'package:flutter/material.dart';
-import 'package:singh/Widgets/Item_Widget.dart';
-import 'package:singh/Widgets/drawer.dart';
-import 'package:singh/models/catalog.dart';
+import 'dart:convert';
 
-class HomePage extends StatelessWidget {
-  static String iniRoute = "/";
-  static String homeRoute = "/home";
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../Widgets/Item_Widget.dart';
+import '../Widgets/drawer.dart';
+import '../models/catalog.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final int days = 30;
 
-  final String name = 'codepur';
+  final String name = "Codepur";
 
-  const HomePage({super.key});
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    await Future.delayed(Duration(seconds: 2));
+    final catalogJson =
+        await rootBundle.loadString("assets/files/catalog.json");
+    final decodedData = jsonDecode(catalogJson);
+    var productsData = decodedData["products"];
+    CatalogModel.items = List.from(productsData)
+        .map<Item>((item) => Item.fromMap(item))
+        .toList();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            "Catagol App",
-            style: TextStyle(color: Colors.black),
-          ),
-          // backgroundColor: Colors.deepPurple,
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ListView.builder(
-            itemCount: CatalogModel.Items.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ItemWidget(item: CatalogModel.Items[index]);
-            },
-          ),
-        ),
-        drawer: MyDrawer());
+      appBar: AppBar(
+        title: Text("Catalog App"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
+            ? ListView.builder(
+                itemCount: CatalogModel.items.length,
+                itemBuilder: (context, index) => ItemWidget(
+                  item: CatalogModel.items[index],
+                ),
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
+      ),
+      drawer: MyDrawer(),
+    );
   }
 }

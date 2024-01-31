@@ -1,30 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:singh/Widgets/Themes.dart';
-import 'package:singh/home_page/home_page.dart';
-import 'package:singh/home_page/login_page.dart';
+
+import 'Utils/routes.dart';
+import 'home_page/home_page.dart';
+import 'home_page/login_page.dart';
+import 'widgets/themes.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: ThemeMode.light,
       theme: MyTheme.lightTheme(context),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
+      darkTheme: MyTheme.darkTheme(context),
       debugShowCheckedModeBanner: false,
-      //themeMode: ThemeMode.light,
-      initialRoute: HomePage.iniRoute,
+      initialRoute: MyRoutes.loginRoute,
       routes: {
-        HomePage.iniRoute: (context) => LoginPage(),
-        HomePage.homeRoute: (context) => HomePage(),
-        LoginPage.loginRoute: (context) => LoginPage(),
+        "/": (context) => LoginPage(),
+        MyRoutes.homeRoutes: (context) => HomePage(),
+        MyRoutes.loginRoute: (context) => LoginPage()
       },
     );
   }
