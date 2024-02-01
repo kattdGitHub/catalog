@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../Widgets/Item_Widget.dart';
 import '../Widgets/drawer.dart';
 import '../models/catalog.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -45,11 +45,31 @@ class _HomePageState extends State<HomePage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
-            ? ListView.builder(
+            ? GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16),
+                itemBuilder: (context, index) {
+                  final item = CatalogModel.items[index];
+                  return GridTile(
+                      header: Container(
+                          child: Text(
+                            item?.name ?? "",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(color: Colors.deepPurple)),
+                      footer: Container(
+                          child: Text(
+                            item.price.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(color: Colors.black)),
+                      child: Image.network(item?.image ?? ""));
+                },
                 itemCount: CatalogModel.items.length,
-                itemBuilder: (context, index) => ItemWidget(
-                  item: CatalogModel.items[index],
-                ),
               )
             : Center(
                 child: CircularProgressIndicator(),
