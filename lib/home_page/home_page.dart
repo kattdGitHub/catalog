@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               if (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
                 Cataloglist().expand()
               else
-                Center(child: CircularProgressIndicator())
+                CircularProgressIndicator().centered().expand()
             ])),
       ),
     );
@@ -86,7 +86,8 @@ class Cataloglist extends StatelessWidget {
 
 class CatalogItem extends StatelessWidget {
   final Item catalog;
-  const CatalogImage({Key? key, required this. catalog}) : super(key: key);
+
+  const CatalogItem({Key? key, required this.catalog}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -97,11 +98,33 @@ class CatalogItem extends StatelessWidget {
           catalog?.image ?? "",
         ),
         Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-          catalog.name!.text.make(),
-        ]))
+              catalog.desc!.text.textStyle(context.captionStyle).make(),
+              10.heightBox,
+              ButtonBar(
+                alignment: MainAxisAlignment.spaceAround,
+                buttonPadding: EdgeInsets.zero,
+                children: [
+                  catalog.name!.text.lg
+                      .color(MyTheme.drakBluishColor)
+                      .bold
+                      .make(),
+                  "${catalog.price!}".text.bold.xl.make(),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(MyTheme.drakBluishColor),
+                        shape: MaterialStateProperty.all(StadiumBorder())),
+                    child: "Buy".text.make(),
+                  )
+                ],
+              ),
+              pOnly(right: 8)
+            ]))
             .box
             .py16
             .roundedSM
@@ -118,6 +141,7 @@ class CatalogImage extends StatelessWidget {
   final String image;
 
   const CatalogImage({Key? key, required this.image}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Image.network(
