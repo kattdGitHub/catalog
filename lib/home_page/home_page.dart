@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:singh/Utils/routes.dart';
 import 'package:singh/Widgets/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -42,16 +44,25 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyTheme.creamColor,
+      backgroundColor: context.canvasColor,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, MyRoutes.cartRouts),
+        backgroundColor: context.theme.hintColor,
+        child: Icon(
+          CupertinoIcons.cart,
+          color: Colors.white,
+        ),
+      ),
       body: SafeArea(
         child: Container(
-          padding: Vx.m32,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(40)),
+          padding: Vx.m12,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CatalogHeader(),
               if (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
-                Cataloglist().expand()
+                CatalogList().py16().expand()
               else
                 CircularProgressIndicator().centered().expand()
             ],
@@ -73,9 +84,7 @@ class CatalogItem extends StatelessWidget {
       child: Row(
         children: [
           Image.network(
-            catalog?.image ?? "",
-            height: 200,
-            width: 100,
+            catalog.image ?? "",
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,26 +95,9 @@ class CatalogItem extends StatelessWidget {
                   .maxLines(1)
                   .make(),
               10.heightBox,
+
               // if (false)
-              ButtonBar(
-                alignment: MainAxisAlignment.spaceAround,
-                buttonPadding: EdgeInsets.zero,
-                children: [
-                  catalog.name!.text.lg
-                      .color(MyTheme.drakBluishColor)
-                      .bold
-                      .make(),
-                  "\$${catalog.price!}".text.bold.xl.make(),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(MyTheme.drakBluishColor),
-                        shape: MaterialStateProperty.all(StadiumBorder())),
-                    child: "Buy".text.make(),
-                  )
-                ],
-              ),
+
               // pOnly(right: 8)
             ],
           )
@@ -115,7 +107,7 @@ class CatalogItem extends StatelessWidget {
               .color(MyTheme.creamColor)
               .make()
               .py16()
-              .w40(context)
+              .w40(context),
         ],
       ),
     ).white.rounded.square(188).make().py16();
